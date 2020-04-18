@@ -57,6 +57,6 @@ public class TaskServiceImplTest {
         doReturn(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").parse("03/01/2020 11:59:26")).when(mockSecondRange).getEndDate();
 
 
-        taskService.calculateTime(workingDates);
+        taskService.calculateTime(workingDates,1L);
     }
 }

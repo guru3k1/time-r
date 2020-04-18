@@ -1,6 +1,7 @@
 package com.cga.timer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.Date;
 public class RangeDates {
     private Long userId;
     private Long rangeId;
-    private Long task_id;
+    private Long taskId;
     private Date startDate;
     private Date endDate;
 
@@ -17,6 +18,7 @@ public class RangeDates {
         return userId;
     }
 
+    @JsonProperty("userId")
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -24,23 +26,25 @@ public class RangeDates {
     public Long getRangeId() {
         return rangeId;
     }
-
+    @JsonProperty("rangeId")
     public void setRangeId(Long rangeId) {
         this.rangeId = rangeId;
     }
 
-    public Long getTask_id() {
-        return task_id;
+    public Long getTaskId() {
+        return taskId;
     }
 
-    public void setTask_id(Long task_id) {
-        this.task_id = task_id;
+    @JsonProperty("taskId")
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
     }
 
     public Date getStartDate() {
         return startDate;
     }
 
+    @JsonProperty("startDate")
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
@@ -49,6 +53,7 @@ public class RangeDates {
         return endDate;
     }
 
+    @JsonProperty("endDate")
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
@@ -56,10 +61,10 @@ public class RangeDates {
     public static RowMapper<RangeDates> rowMapper(){
         return (rs,rowNum)->{
             RangeDates rangeDates = new RangeDates();
-            rangeDates.setTask_id(rs.getLong("TASK_ID"));
+            rangeDates.setTaskId(rs.getLong("TASK_ID"));
             rangeDates.setRangeId(rs.getLong("RANGE_ID"));
-            rangeDates.setStartDate(rs.getDate("START_DATE"));
-            rangeDates.setEndDate(rs.getDate("CLOSE_DATE"));
+            rangeDates.setStartDate(rs.getTimestamp("START_DATE"));
+            rangeDates.setEndDate(rs.getTimestamp("CLOSE_DATE"));
             return rangeDates;
         };
     }
