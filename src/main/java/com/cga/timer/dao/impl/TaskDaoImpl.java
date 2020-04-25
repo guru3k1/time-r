@@ -7,7 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -73,10 +76,16 @@ public class TaskDaoImpl implements TaskDao {
     @Override
     public int addRange(RangeDates rangeDates) {
         LOG.info("Adding range with task Id [{}]",rangeDates.getTaskId());
-        Map<String, Long> parameters = new HashMap<>();
-        parameters.put("taskId", rangeDates.getTaskId());
-        parameters.put("userId", rangeDates.getUserId());
-        return namedParameterJdbcTemplate.update(addRange,parameters);
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("taskId", rangeDates.getTaskId());
+        parameters.addValue("userId", rangeDates.getUserId());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int status = namedParameterJdbcTemplate.update(addRange,parameters, keyHolder, new String[]{"range_id"});
+        if(status == 0){
+            return status;
+        }else{
+            return keyHolder.getKey().intValue();
+        }
     }
 
     @Override

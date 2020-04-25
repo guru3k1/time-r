@@ -35,7 +35,7 @@ public class TimeController {
     }
 
     @PostMapping(value="/addRange", produces = "application/json")
-    public String addRange(@RequestBody RangeDates rangeDates, HttpServletRequest request){
+    public int addRange(@RequestBody RangeDates rangeDates, HttpServletRequest request){
         LOG.info("AddRange to taskId [{}]",rangeDates.getTaskId());
         return taskService.addRange(rangeDates);
     }
